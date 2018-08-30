@@ -5,7 +5,7 @@ import android.opengl.GLSurfaceView;
 import site.albertsnow.glestutorial.BaseGLActivity;
 import site.albertsnow.opengltest.line.PrimaryRender;
 
-public class MainActivity extends BaseGLActivity {
+public class LineActivity extends BaseGLActivity {
 
     @Override
     protected GLSurfaceView.Renderer onCreateRender() {

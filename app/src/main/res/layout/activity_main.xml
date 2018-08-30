@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <Button
+        android:id="@+id/main_triangle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Jump Triangle Activity"
+        android:onClick="onClick"
+        />
+
+    <Button
+        android:id="@+id/main_cube"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Jump Cube Activity"
+        android:onClick="onClick"
+        />
+
+    <Button
+        android:id="@+id/main_texture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Jump Texture Activity"
+        android:onClick="onClick"
+        />
+
+</LinearLayout>
