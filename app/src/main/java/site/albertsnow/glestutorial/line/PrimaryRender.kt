@@ -206,8 +206,14 @@ class PrimaryRender : GLSurfaceView.Renderer {
         // Draw the triangle facing straight on.
         Matrix.setIdentityM(mModelMatrix, 0)
         Matrix.rotateM(mModelMatrix, 0, angleInDegrees, 0.0f, 0.0f, 1.0f)
+        drawTriangle(mTriangleBuffer)
 
-        drawTriangle()
+        Matrix.setIdentityM(mModelMatrix, 0)
+        Matrix.translateM(mModelMatrix, 0, 0f, -0.5f, 0f)
+        Matrix.scaleM(mModelMatrix, 0, 1f, -1f, 1f)
+        Matrix.rotateM(mModelMatrix, 0, angleInDegrees, 0.0f, 0.0f, 1.0f)
+        drawTriangle(mTriangleBuffer)
+
     }
 
     /** How many bytes per float.  */
@@ -228,16 +234,16 @@ class PrimaryRender : GLSurfaceView.Renderer {
     /** Size of the color data in elements.  */
     private val mColorDataSize = 4
 
-    private fun drawTriangle() {
+    private fun drawTriangle(triangleBuffer : FloatBuffer) {
 
-        mTriangleBuffer.position(0)
+        triangleBuffer.position(0)
         GLES20.glVertexAttribPointer(mPositionPointer, 3, GLES20.GL_FLOAT,
-                false, FLOAT_BYTE_SIZE * 7, mTriangleBuffer)
+                false, FLOAT_BYTE_SIZE * 7, triangleBuffer)
         GLES20.glEnableVertexAttribArray(mPositionPointer)
 
-        mTriangleBuffer.position(3)
+        triangleBuffer.position(3)
         GLES20.glVertexAttribPointer(mColorPointer, 4, GLES20.GL_FLOAT,
-                false, FLOAT_BYTE_SIZE * 7, mTriangleBuffer)
+                false, FLOAT_BYTE_SIZE * 7, triangleBuffer)
         GLES20.glEnableVertexAttribArray(mColorPointer)
 //
         Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0)
