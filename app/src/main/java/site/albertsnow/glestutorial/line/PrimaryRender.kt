@@ -38,10 +38,10 @@ class PrimaryRender : BaseRender() {
             """
     }
 
-    val mTriangleBuffer : FloatBuffer
+    val mTriangleBuffer: FloatBuffer
 
     init {
-        val triangleVerticesArray : FloatArray = floatArrayOf(
+        val triangleVerticesArray: FloatArray = floatArrayOf(
                 -0.5f, -0.25f, 0.0f,
                 1.0f, 0.0f, 0.0f, 1.0f,
 
@@ -51,7 +51,7 @@ class PrimaryRender : BaseRender() {
                 0.0f, 0.559016994f, 0.0f,
                 0.0f, 1.0f, 0.0f, 1.0f
         )
-        mTriangleBuffer =  floatBuffer(triangleVerticesArray.size * FLOAT_BYTE_SIZE)
+        mTriangleBuffer = floatBuffer(triangleVerticesArray.size * FLOAT_BYTE_SIZE)
         mTriangleBuffer.put(triangleVerticesArray).position(0)
     }
 
@@ -80,7 +80,7 @@ class PrimaryRender : BaseRender() {
         drawTriangle(mTriangleBuffer)
     }
 
-    private fun drawTriangle(triangleBuffer : FloatBuffer) {
+    private fun drawTriangle(triangleBuffer: FloatBuffer) {
 
         triangleBuffer.position(0)
         GLES20.glVertexAttribPointer(mPositionPointer, 3, GLES20.GL_FLOAT,
