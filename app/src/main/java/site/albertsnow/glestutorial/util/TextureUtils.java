@@ -43,4 +43,22 @@ public class TextureUtils {
     }
 
 
+    public static int loadTexture2(Context context, int drawableId) {
+        int[] textureObjIds = new int[1];
+        GLES20.glGenTextures(1, textureObjIds, 0);
+        if (textureObjIds[0] == 0) {
+            return 0;
+        }
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureObjIds[0]);//bind
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), drawableId);
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
+        GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);//unbind
+        return textureObjIds[0];
+    }
+
+
 }

@@ -38,7 +38,6 @@ abstract class BaseRender : GLSurfaceView.Renderer {
 
     var mMVPMatrixPointer: Int = 0
     var mPositionPointer: Int = 0
-    var mColorPointer: Int = 0
 
     protected fun floatBuffer(capacity : Int) : FloatBuffer {
         return ByteBuffer.allocateDirect(capacity)
@@ -104,7 +103,6 @@ abstract class BaseRender : GLSurfaceView.Renderer {
     protected open fun initAttributeLocation() {
         mMVPMatrixPointer = GLES20.glGetUniformLocation(mProgramPointer, "u_MVPMatrix")
         mPositionPointer = GLES20.glGetAttribLocation(mProgramPointer, "a_Position")
-        mColorPointer = GLES20.glGetAttribLocation(mProgramPointer, "a_Color")
     }
 
     fun createProgram() {

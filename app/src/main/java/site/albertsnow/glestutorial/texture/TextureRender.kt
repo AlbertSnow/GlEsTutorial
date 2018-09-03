@@ -10,7 +10,7 @@ import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
 class TextureRender : BaseRender() {
-    var textureId = 0
+//    var textureId = 0
     var texturePointer : Int = 0
 
     val mCubeBuffer : FloatBuffer
@@ -20,9 +20,9 @@ class TextureRender : BaseRender() {
 
     init {
             val triangleVerticesArray : FloatArray = floatArrayOf(
-                    -1f, 1f, 0f,
-                    1f, 1f, 0f,
                     1f, -1f, 0f,
+                    1f, 1f, 0f,
+                    -1f, 1f, 0f,
 
                     1f, -1f, 0f,
                     -1f, 1f, 0f,
@@ -32,9 +32,9 @@ class TextureRender : BaseRender() {
             mCubeBuffer.put(triangleVerticesArray).position(0)
 
         val textureVerticesArray : FloatArray = floatArrayOf(
-                0f, 1f, 0f,
-                1f, 1f, 0f,
                 1f, 0f, 0f,
+                1f, 1f, 0f,
+                0f, 1f, 0f,
 
                 1f, 0f, 0f,
                 0f, 1f, 0f,
@@ -46,7 +46,9 @@ class TextureRender : BaseRender() {
 
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
         super.onSurfaceCreated(gl, config)
-        textureId = TextureUtils.loadTexture(MyApplication.getInstance(), R.drawable.gundam)
+        val textureId = TextureUtils.loadTexture2(MyApplication.getInstance(), R.drawable.gundam)
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0)
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId)
     }
 
     override fun initAttributeLocation() {
@@ -57,8 +59,6 @@ class TextureRender : BaseRender() {
     override fun onCreateVertexShaderSource(): String {
         return """     uniform mat4 u_MVPMatrix;
                     attribute vec4 a_Position;
-                    attribute vec4 a_Color;
-                    varying vec4 v_Color;
 
                     varying vec2 v_TexCoordinate;
                     attribute vec2 texCoord;
@@ -66,7 +66,6 @@ class TextureRender : BaseRender() {
 
                     void main()
                     {
-                       v_Color = a_Color;
                        v_TexCoordinate = texCoord;
 
                        gl_Position = u_MVPMatrix  * a_Position;
@@ -77,21 +76,19 @@ class TextureRender : BaseRender() {
 
     override fun onCreateFragmentShaderSource(): String {
         return """     precision mediump float;
-                    varying vec4 v_Color;
 
                     varying vec2 v_TexCoordinate;
                     uniform sampler2D s_texture;
 
                     void main()
                     {
-//                       gl_FragColor = v_Color;
                         gl_FragColor = texture2D(s_texture,v_TexCoordinate);
                     }
             """
     }
 
     override fun onDrawFrame(gl: GL10?) {
-        GLES20.glUniform1i(texturePointer, textureId)
+        GLES20.glUniform1i(texturePointer, 0)
 
         mCubeBuffer.position(0)
         GLES20.glVertexAttribPointer(mPositionPointer, 3, GLES20.GL_FLOAT,

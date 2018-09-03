@@ -8,6 +8,8 @@ import java.nio.FloatBuffer
 import javax.microedition.khronos.opengles.GL10
 
 class PrimaryRender : BaseRender() {
+    var mColorPointer: Int = 0
+
     override fun onCreateVertexShaderSource(): String {
         return """     uniform mat4 u_MVPMatrix;
                     attribute vec4 a_Position;
@@ -51,6 +53,11 @@ class PrimaryRender : BaseRender() {
         )
         mTriangleBuffer =  floatBuffer(triangleVerticesArray.size * FLOAT_BYTE_SIZE)
         mTriangleBuffer.put(triangleVerticesArray).position(0)
+    }
+
+    override fun initAttributeLocation() {
+        super.initAttributeLocation()
+        mColorPointer = GLES20.glGetAttribLocation(mProgramPointer, "a_Color")
     }
 
 
