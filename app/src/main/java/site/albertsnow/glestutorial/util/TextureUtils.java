@@ -35,9 +35,6 @@ public class TextureUtils {
             bitmap.recycle();
         }
 
-        if (textureHandle[0] == 0) {
-            throw new RuntimeException("Error loading texture.");
-        }
 
         return textureHandle[0];
     }

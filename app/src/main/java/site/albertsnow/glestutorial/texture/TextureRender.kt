@@ -8,6 +8,7 @@ import site.albertsnow.glestutorial.MyApplication
 import site.albertsnow.glestutorial.R
 import site.albertsnow.glestutorial.util.TextureUtils
 import java.nio.FloatBuffer
+import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
 class TextureRender : BaseRender() {
@@ -17,16 +18,12 @@ class TextureRender : BaseRender() {
     override fun onCreateVertexShaderSource(): String {
         return """     uniform mat4 u_MVPMatrix;
                     attribute vec4 a_Position;
-//                    attribute vec4 a_Color;
 
                     varying vec2 v_TexCoordinate;
                     attribute vec2 texCoord;
 
-//                    varying vec4 v_Color;
-
                     void main()
                     {
-//                       v_Color = a_Color;
                        v_TexCoordinate = texCoord;
 
                        gl_Position = u_MVPMatrix  * a_Position;
@@ -37,7 +34,6 @@ class TextureRender : BaseRender() {
 
     override fun onCreateFragmentShaderSource(): String {
         return """     precision mediump float;
-//                    varying vec4 v_Color;
                       varying vec2 v_TexCoordinate;
 
                       uniform sampler2D s_texture;
@@ -45,7 +41,6 @@ class TextureRender : BaseRender() {
 
                     void main()
                     {
-//                       gl_FragColor = v_Color;
                         gl_FragColor = texture2D(s_texture,v_TexCoordinate);
                     }
             """
@@ -57,22 +52,12 @@ class TextureRender : BaseRender() {
     init {
         val triangleVerticesArray: FloatArray = floatArrayOf(
                 -0.5f, -0.5f, 0.0f,
-                1.0f, 0.0f, 0.0f, 1.0f,
-
                 0.5f, -0.5f, 0.0f,
-                0.0f, 0.0f, 1.0f, 1.0f,
+                0.0f, 0.5f, 0.0f,
 
                 0.0f, 0.5f, 0.0f,
-                0.0f, 1.0f, 0.0f, 1.0f,
-
-                0.0f, 0.5f, 0.0f,
-                0.0f, 1.0f, 0.0f, 1.0f,
-
                 0.5f, -0.5f, 0.0f,
-                0.0f, 0.0f, 1.0f, 1.0f,
-
-                1f, 0.5f, 0.0f,
-                1.0f, 0.0f, 0.0f, 1.0f
+                1f, 0.5f, 0.0f
         )
         mTriangleBuffer = floatBuffer(triangleVerticesArray.size * FLOAT_BYTE_SIZE)
         mTriangleBuffer.put(triangleVerticesArray).position(0)
@@ -89,14 +74,19 @@ class TextureRender : BaseRender() {
         )
         textureBuffer = floatBuffer(textureVerticesArray.size * FLOAT_BYTE_SIZE)
         textureBuffer.put(textureVerticesArray).position(0)
+
     }
 
     override fun initAttributeLocation() {
         super.initAttributeLocation()
-//        mColorPointer = GLES20.glGetAttribLocation(mProgramPointer, "a_Color")
         mTextureCoordPointer = GLES20.glGetAttribLocation(mProgramPointer, "texCoord")
     }
 
+
+    override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
+        super.onSurfaceCreated(gl, config)
+        textId = -1;
+    }
 
     override fun onDrawFrame(gl: GL10) {
         GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT or GLES20.GL_COLOR_BUFFER_BIT)
@@ -109,12 +99,6 @@ class TextureRender : BaseRender() {
         Matrix.setIdentityM(mModelMatrix, 0)
         Matrix.rotateM(mModelMatrix, 0, angleInDegrees, 0.0f, 0.0f, 1.0f)
         drawTriangle(mTriangleBuffer)
-
-//        Matrix.setIdentityM(mModelMatrix, 0)
-//        Matrix.translateM(mModelMatrix, 0, 0f, -0.5f, 0f)
-//        Matrix.scaleM(mModelMatrix, 0, 1f, -1f, 1f)
-//        Matrix.rotateM(mModelMatrix, 0, angleInDegrees, 0.0f, 0.0f, 1.0f)
-//        drawTriangle(mTriangleBuffer)
     }
 
     private var textId: Int = -1
@@ -123,13 +107,8 @@ class TextureRender : BaseRender() {
 
         triangleBuffer.position(0)
         GLES20.glVertexAttribPointer(mPositionPointer, 3, GLES20.GL_FLOAT,
-                false, FLOAT_BYTE_SIZE * 7, triangleBuffer)
+                false, FLOAT_BYTE_SIZE * 3, triangleBuffer)
         GLES20.glEnableVertexAttribArray(mPositionPointer)
-
-//        triangleBuffer.position(3)
-//        GLES20.glVertexAttribPointer(mColorPointer, 4, GLES20.GL_FLOAT,
-//                false, FLOAT_BYTE_SIZE * 7, triangleBuffer)
-//        GLES20.glEnableVertexAttribArray(mColorPointer)
 
         textureBuffer.position(0)
         GLES20.glVertexAttribPointer(mTextureCoordPointer, 3, GLES20.GL_FLOAT,
