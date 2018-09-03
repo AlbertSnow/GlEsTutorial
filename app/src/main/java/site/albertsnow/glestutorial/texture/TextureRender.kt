@@ -101,6 +101,6 @@ class TextureRender : BaseRender() {
         GLES20.glEnableVertexAttribArray(mTextureCoordPointer)
 
         applyMVP()
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 7)
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 6)
     }
 }
