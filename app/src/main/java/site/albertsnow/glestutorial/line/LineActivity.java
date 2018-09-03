@@ -12,9 +12,4 @@ public class LineActivity extends BaseGLActivity {
         return new PrimaryRender();
     }
 
-    @Override
-    protected GLSurfaceView onCreateGlSurfaceView() {
-        return new GLSurfaceView(this);
-    }
-
 }

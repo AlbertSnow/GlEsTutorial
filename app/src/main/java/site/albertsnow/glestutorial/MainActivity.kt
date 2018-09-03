@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import site.albertsnow.glestutorial.line.LineActivity
+import site.albertsnow.glestutorial.texture.TextureActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         when (clickView.id) {
             R.id.main_triangle -> jumpIntent(LineActivity::class.java)
             R.id.main_cube -> jumpIntent(LineActivity::class.java)
-            R.id.main_texture -> jumpIntent(LineActivity::class.java)
+            R.id.main_texture -> jumpIntent(TextureActivity::class.java)
         }
     }
 

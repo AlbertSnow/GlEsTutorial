@@ -101,7 +101,7 @@ abstract class BaseRender : GLSurfaceView.Renderer {
     }
 
 
-    private fun initAttributeLocation() {
+    protected open fun initAttributeLocation() {
         mMVPMatrixPointer = GLES20.glGetUniformLocation(mProgramPointer, "u_MVPMatrix")
         mPositionPointer = GLES20.glGetAttribLocation(mProgramPointer, "a_Position")
         mColorPointer = GLES20.glGetAttribLocation(mProgramPointer, "a_Color")

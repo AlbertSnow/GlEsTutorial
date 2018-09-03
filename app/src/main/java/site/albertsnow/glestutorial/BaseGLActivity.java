@@ -38,7 +38,9 @@ public abstract class BaseGLActivity extends AppCompatActivity {
 
     protected abstract GLSurfaceView.Renderer onCreateRender();
 
-    protected abstract GLSurfaceView onCreateGlSurfaceView();
+    protected GLSurfaceView onCreateGlSurfaceView(){
+        return new GLSurfaceView(this);
+    }
 
     @Override
     protected void onResume() {

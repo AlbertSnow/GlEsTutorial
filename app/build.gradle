@@ -3,6 +3,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
+apply from: 'C:\\WorkSpace//vivo.gradle'
+
 
 android {
     compileSdkVersion 28
